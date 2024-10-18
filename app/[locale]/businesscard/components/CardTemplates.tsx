@@ -34,7 +34,7 @@ export const BlueTemplate: React.FC<{ data: FormValuesBC }> = ({ data }) => (
         {/* Right Side: Logo */}
         <div className="mt-4 sm:ml-4 sm:mt-0">
           <img
-            src="./images/logo.png"
+            src="./Images/logo.svg"
             alt="Company Logo"
             width={150}
             height={150}

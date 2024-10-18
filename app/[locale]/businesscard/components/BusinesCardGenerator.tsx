@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Grid2, Paper, Typography, Box, Divider } from '@mui/material';
+import { Grid, Paper, Typography, Box, Divider } from '@mui/material';
 import { Button } from '@/components/ui/button';
 import BusinessCard from '@/app/[locale]/businesscard/components/BusinessCard';
 import { useBusinessCardPreview } from '@/app/[locale]/businesscard/useBusinessCard';
@@ -14,19 +14,19 @@ export default function BusinessCardGenerator() {
   const { handleSave, handleDownloadPDF } = useBusinessCardActions(cardData);
 
   return (
-    <Grid2 container spacing={4} padding={4}>
+    <Grid container spacing={4} padding={4}>
       {/* Left side - Form */}
-      <Grid2 item xs={12} md={6}>
+      <Grid item xs={12} md={6}>
         <Paper elevation={3} sx={{ padding: 4 }}>
           <Typography variant="h5" gutterBottom>
             Generate Your Business Card
           </Typography>
           <BusinessCardForm onSubmit={handleSubmit} />
         </Paper>
-      </Grid2>
+      </Grid>
 
       {/* Right side - Preview */}
-      <Grid2 item xs={12} md={6}>
+      <Grid item xs={12} md={6}>
         <div className="space-y-6">
           {/* Live Preview Section */}
           <Paper elevation={3} sx={{ padding: 4 }}>
@@ -54,7 +54,7 @@ export default function BusinessCardGenerator() {
             </Typography>
             <Divider sx={{ marginY: 2 }} />
             {cardData && (
-              <div className="rounded-lg bg-white p-4 shadow-md">
+              <div id="business-card-preview" className="rounded-lg bg-white p-4 shadow-md">
                 <BusinessCard data={cardData} />
               </div>
             )}
@@ -85,7 +85,7 @@ export default function BusinessCardGenerator() {
             </Box>
           </Paper>
         </div>
-      </Grid2>
-    </Grid2>
+      </Grid>
+    </Grid>
   );
 }

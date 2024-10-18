@@ -1,9 +1,11 @@
-import { useCallback } from 'react'
-import { FormValuesBC } from './schema'
+import { useCallback } from 'react';
+import { FormValuesBC } from './schema';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export function useBusinessCardActions(cardData: FormValuesBC | null) {
   const handleSave = useCallback(async () => {
-    if (!cardData) return
+    if (!cardData) return;
 
     try {
       const response = await fetch('/api/save-card', {
@@ -12,49 +14,46 @@ export function useBusinessCardActions(cardData: FormValuesBC | null) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(cardData),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error('Failed to save business card')
+        throw new Error('Failed to save business card');
       }
 
-      alert('Business card saved successfully!')
+      alert('Business card saved successfully!');
     } catch (error) {
-      console.error('Error:', error)
-      alert('Failed to save business card. Please try again.')
+      console.error('Error:', error);
+      alert('Failed to save business card. Please try again.');
     }
-  }, [cardData])
+  }, [cardData]);
 
   const handleDownloadPDF = useCallback(async () => {
-    if (!cardData) return
+    if (!cardData) return;
 
     try {
-      const response = await fetch('/api/download-pdf', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(cardData),
-      })
+      const cardElement = document.getElementById('business-card-preview');
+      if (!cardElement) throw new Error('Business card preview not found');
 
-      if (!response.ok) {
-        throw new Error('Failed to generate PDF')
-      }
+      // Capture the business card as a canvas, with proper scaling.
+      const canvas = await html2canvas(cardElement, { scale: 2 }); // Higher scale for better quality.
+      const imgData = canvas.toDataURL('image/png');
 
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.style.display = 'none'
-      a.href = url
-      a.download = 'business-card.pdf'
-      document.body.appendChild(a)
-      a.click()
-      window.URL.revokeObjectURL(url)
+      // Create PDF with the same size as the canvas.
+      const pdfWidth = canvas.width;
+      const pdfHeight = canvas.height;
+      const pdf = new jsPDF({
+        orientation: pdfWidth > pdfHeight ? 'landscape' : 'portrait',
+        unit: 'px',
+        format: [pdfWidth, pdfHeight], // Match PDF size to canvas size.
+      });
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('business-card.pdf');
     } catch (error) {
-      console.error('Error:', error)
-      alert('Failed to download PDF. Please try again.')
+      console.error('Error:', error);
+      alert('Failed to download PDF. Please try again.');
     }
-  }, [cardData])
+  }, [cardData]);
 
-  return { handleSave, handleDownloadPDF }
+  return { handleSave, handleDownloadPDF };
 }
