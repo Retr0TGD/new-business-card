@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Card, CardContent } from '@/components/ui/card';
 import { FormValuesBC } from '@/app/[locale]/businesscard/schema';
+import "@/public/Images/logo.svg"
 
 export const BlueTemplate: React.FC<{ data: FormValuesBC }> = ({ data }) => (
   
@@ -34,7 +35,7 @@ export const BlueTemplate: React.FC<{ data: FormValuesBC }> = ({ data }) => (
         {/* Right Side: Logo */}
         <div className="mt-4 sm:ml-4 sm:mt-0">
           <img
-            src="./Images/logo.svg"
+            src="/Images/logo.svg"
             alt="Company Logo"
             width={150}
             height={150}
@@ -73,7 +74,7 @@ export const GreenTemplate: React.FC<{ data: FormValuesBC }> = ({ data }) => (
         </div>
         <div className="mt-4 sm:ml-4 sm:mt-0">
           <img
-            src="./images/logo.png"
+            src="/Images/logo.svg"
             alt="Company Logo"
             width={150}
             height={150}
@@ -110,7 +111,7 @@ export const PurpleTemplate: React.FC<{ data: FormValuesBC }> = ({ data }) => (
         </div>
         <div className="mt-4 sm:ml-4 sm:mt-0">
           <img
-            src="./images/logo.png"
+            src="/Images/logo.svg"
             alt="Company Logo"
             width={150}
             height={150}
